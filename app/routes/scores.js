@@ -6,4 +6,8 @@ router.get('/', function(req, res, next) {
   res.send(controller.getScores());
 });
 
+router.post('/', function (req, res, next) {
+  
+})
+
 module.exports = router;

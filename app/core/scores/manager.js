@@ -1,5 +1,10 @@
 var store = require('../../stores/scores/interface')
 
-exports.getScores = function() {
-    return store.getScores()
+/**
+ * Get user score
+ * @param {object} user 
+ * @returns {number} score
+ */
+exports.getScores = function(user) {
+    return store.getScores(user);
 }
