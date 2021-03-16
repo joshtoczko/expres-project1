@@ -20,23 +20,22 @@ var scoreEntity = dynamoDb.define('entity', {
     }
 });
 
-scoreEntity.config({tableName: 'entity'});
+scoreEntity.config({ tableName: 'entity' });
 
 /**
  * 
  * @param {string} userName 
  * @returns score: Number
  */
-exports.getScores = function (userName) {
+exports.getScores = function (userName, response) {
     let pk = primaryKey(userName);
-    
+
     scoreEntity.get(pk.hashKey, pk.rangeKey, function (err, result) {
         if (err) {
-            console.log(err)
-            // do not throw, let manager decide what to do
-            score = null;
+            console.log(err);
+            response(err);
         } else {
-            return result.get('score');
+            response(result.get('score').toString());
         }
-    })
-}
+    });
+};

@@ -6,7 +6,7 @@ const userModel = require('../../core/models/user');
  * @param {String} user 
  * @returns {number} score
  */
-exports.getScores = function (user) {
+exports.getScores = function (user, response) {
     userModel.verify(user);
-    return dynamoDb.getScores(user.userName)
+    dynamoDb.getScores(user.userName, response);
 }
