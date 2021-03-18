@@ -4,7 +4,6 @@ variable "environment" {
   validation {
     condition     = var.environment == "dev" || var.environment == "test" || var.environment == "prod"
     error_message = "The environment must be specified and valid."
-
   }
 }
 

@@ -106,3 +106,8 @@ dist
 # TernJS port file
 .tern-port
 app/aws/credentials.json
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+terraform.tfstate
