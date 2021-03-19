@@ -1,16 +1,24 @@
 const express = require('express');
-const { get } from '../controllers/users';
-const router = Router();
+const usrController = require('../controllers/users');
+const router = express.Router();
 
-router.route('/:userid')
+router.route('/')
   .all((req, res, next) => {
     next()
   })
   .get((req, res, next) => {
-    get(req.params.userId, (username) => { res.send(username) })
+    res.send(404)
   })
   .post((req, res, next) => {
+    usrController.create(req.body, (message) => {
+      res.send(message);
+    })
+  });
 
+router.get('/id/:userid', (req, res, next) => {
+  usrController.get(req.params.userid, (username) => {
+    res.send(username);
   })
+})
 
-export default router;
+module.exports = router;

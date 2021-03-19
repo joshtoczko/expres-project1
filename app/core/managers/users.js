@@ -1,5 +1,9 @@
-import { get } from "../stores/dynamoDb/users"
+const store = require("../stores/dynamoDb/users")
 
-export function get(userId, response) {
-    get(userId, response)
+exports.get = (id, res) => {
+    store.get(id, res);
+}
+
+exports.create = (username, res) => {
+    store.create(username, res);
 }

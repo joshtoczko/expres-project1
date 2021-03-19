@@ -1,5 +1,9 @@
-import { get } from '../core/user';
+const manager = require('../core/managers/users');
 
-export function get(id, res) {
-    return get(id, res);
+exports.get = (id, res) => {
+    manager.get(id, res);
+}
+
+exports.create = ({ username: username }, res) => {
+    manager.create(username, res);
 }

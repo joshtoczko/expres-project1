@@ -1,26 +1,50 @@
 // https://www.npmjs.com/package/dynamodb
 
-import { AWS, define } from 'dynamodb';
+const { AWS, define, types } = require('dynamodb');
+const Joi = require('joi');
+const { v4: uuid } = require('uuid');
 AWS.config.loadFromPath('./aws/credentials.json');
 
-const hashKey = (userId) => `/users/id/${userId}`;
+const hashKey = (id) => `/users/id/${id}`;
+const rangeKey = 'user';
 
-const user = define('user', {
-    hashKey: 'UserId',
+const Schema = define('user', {
+    hashKey: 'EntityId',
+    rangeKey: 'EntityType',
+    timestamps: true,
     schema: {
-        User: 'S'
+        EntityId: Joi.string(),
+        EntityType: Joi.string(),
+        User: {
+            UserName: Joi.string()
+        }
     }
 });
 
-user.config({ tableName: 'entity' });
+Schema.config({ tableName: 'entity' });
 
-export function get(userId, response) {
-    user.get(hashKey(userId), 'user', (err, result) => {
+exports.get = (id, res) => {
+    Schema.get(hashKey(id), rangeKey, (err, result) => {
         if (err) {
             console.log(err);
-            response(err);
+            res(err);
         } else {
-            response(result.get('User.UserName').toString());
+            res(result?.get('User')?.toString());
         }
+    });
+}
+
+exports.create = (username, res) => {
+    const userObj = {
+        EntityId: hashKey(uuid()),
+        EntityType: rangeKey,
+        User: {
+            UserName: username
+        }
+    }
+
+    Schema.create(userObj, (err, ent) => {
+        if (err) res(500);
+        res(`Create user for ${ent.get('User')?.UserName}`);
     });
 }
