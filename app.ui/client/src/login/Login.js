@@ -1,8 +1,9 @@
 import React from 'react';
-import logo from '../assets/zbd.png'
-import '../index.css'
+import logo from '../assets/zbd.png';
+import service from '../services/users';
+import '../index.css';
 
-// can you use boostrap?
+// can you use bootstrap?
 class Page extends React.Component {
     constructor(props) {
         super(props);
@@ -12,12 +13,19 @@ class Page extends React.Component {
 
     handleSubmit(e, form) {
         e.preventDefault();
-        console.log(`Login.Page.handleSubmit: ${form}`);
+        console.log(`Login.Page.handleSubmit: ${form.username}`);
+        console.log(e);
         this.props.onSubmit(form.username);
     }
 
+    handleCreateUser(e, form) {
+        e.preventDefault();
+        console.log(`Login.Page.handleCreateUser: ${form.username}`);
+        service.createUser(form.username);
+    }
+
     render() {
-        return <Modal onSubmit={this.handleSubmit} key='modal' />
+        return <Modal onSubmit={this.handleSubmit} onCreateUser={this.handleCreateUser} key='modal' />
     }
 }
 
@@ -26,9 +34,6 @@ export default Page;
 class Modal extends React.Component {
     constructor(props) {
         super(props);
-
-        // this.onUsernameChange = this.onUsernameChange.bind(this);
-        // this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
             form: {
@@ -39,17 +44,27 @@ class Modal extends React.Component {
     }
 
     onSubmit(e) {
-        console.log(`Modal.onSubmit: ${this.state.form}`)
+        console.log(`Modal.onSubmit: ${this.state.form.username}`);
         this.props.onSubmit(e, this.state.form);
+    }
+
+    onCreateUser(e) {
+        console.log(`Modal.onCreateUser: ${this.state.form.username}`);
+        this.props.onCreateUser(e, this.state.form);
     }
 
     render() {
         return <div className="Login">
             <Logo />
-            <form onSubmit={this.onSubmit.bind(this)}>
+            <form>
                 <Input type='text' name='username' placeholder='username' onChange={this.onUsernameChange.bind(this)} />
                 <Input type='password' name='password' placeholder='password' />
-                <button>Sign In</button>
+                <div>
+                    <button onClick={this.onSubmit.bind(this)}>Sign In</button>
+                </div>
+                <div>
+                    <button onClick={this.onCreateUser.bind(this)}>Create User</button>
+                </div>
             </form>
         </div>
     }
