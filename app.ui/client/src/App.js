@@ -17,7 +17,7 @@ class App extends React.Component {
     if (this.state.isLoggedIn) {
       return (
         <div className="App">
-          <Home username={this.username} />
+          <Home username={this.state.username} />
         </div>
       );
     }
@@ -25,6 +25,7 @@ class App extends React.Component {
     return (
       <div className="App" >
         <Login onSubmit={(username, password) => {
+          console.log(username);
           this.setState({
             isLoggedIn: true,
             username: username
