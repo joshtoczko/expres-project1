@@ -13,9 +13,7 @@ class Page extends React.Component {
     handleSubmit(e, form) {
         e.preventDefault();
         console.log(`Login.Page.handleSubmit: ${form}`);
-        this.props.onSubmit(form.username, form.password);
-
-        return false;
+        this.props.onSubmit(form.username);
     }
 
     render() {
