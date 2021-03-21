@@ -15,6 +15,10 @@ exports.exists = (username, res) => {
                 exists: true,
                 ...user
             })
+        } else {
+            res({
+                exists: false
+            })
         }
     });
 }

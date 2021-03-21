@@ -42,7 +42,11 @@ exports.getUserByUsername = (username, res) => {
             return res(err);
         }
 
-        res(result?.get('user'))
+        const user = result?.get('user');
+
+        if (user) return res(user);
+
+        return res(null);
     })
 }
 
