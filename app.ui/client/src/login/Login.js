@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from '../assets/zbd.png';
-import service from '../services/users';
+import { createUser } from '../services/users';
 import '../index.css';
 
 // can you use bootstrap?
@@ -21,7 +21,7 @@ class Page extends React.Component {
     handleCreateUser(e, form) {
         e.preventDefault();
         console.log(`Login.Page.handleCreateUser: ${form.username}`);
-        service.createUser(form.username);
+        createUser(form.username);
     }
 
     render() {
