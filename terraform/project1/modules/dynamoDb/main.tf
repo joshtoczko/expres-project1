@@ -3,16 +3,16 @@ resource "aws_dynamodb_table" "entity" {
   billing_mode   = "PROVISIONED"
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
-  hash_key       = "EntityId"
-  range_key      = "EntityType"
+  hash_key       = "entityId"
+  range_key      = "entityType"
 
   attribute {
-    name = "EntityId"
+    name = "entityId"
     type = "S"
   }
 
   attribute {
-    name = "EntityType"
+    name = "entityType"
     type = "S"
   }
 

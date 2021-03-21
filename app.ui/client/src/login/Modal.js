@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/zbd.png';
+import { userExists } from '../services/users';
 import '../index.css';
 
 class Modal extends React.Component {
@@ -9,7 +10,8 @@ class Modal extends React.Component {
         this.state = {
             form: {
                 username: null,
-                password: null
+                password: null,
+                showUserAlreadyExists: false
             }
         };
     }
@@ -20,8 +22,23 @@ class Modal extends React.Component {
     }
 
     onCreateUser(e) {
+        e.preventDefault();
         console.log(`Modal.onCreateUser: ${this.state.form.username}`);
-        this.props.onCreateUser(e, this.state.form);
+
+
+        userExists(this.state.form.username, (user) => {
+            console.log('onCreateUser.userExistsResponse', user);
+
+            if (user?.exists === null) {
+                console.logError(`Unable to determine existence of user: ${this.state.form.username}`);
+                return;
+            } else if (user.exists) {
+                this.setState({ showUserAlreadyExists: true });
+                return;
+            }
+
+            this.props.onCreateUser(e, this.state.form);
+        });
     }
 
     render() {
@@ -37,6 +54,10 @@ class Modal extends React.Component {
                     <button onClick={this.onCreateUser.bind(this)}>Create User</button>
                 </div>
             </form>
+            {
+                this.state.showUserAlreadyExists &&
+                <h2 className="error">This user already exists!</h2>
+            }
         </div>
     }
 
@@ -49,7 +70,12 @@ class Modal extends React.Component {
 class Input extends React.Component {
     render() {
         return <div>
-            <input type={this.props.type} name={this.props.name} placeholder={this.props.placeholder} required autoComplete='false' onChange={this.props.onChange} />
+            <input type={this.props.type}
+                name={this.props.name}
+                placeholder={this.props.placeholder}
+                required
+                autoComplete='false'
+                onChange={this.props.onChange} />
             <label htmlFor={this.props.name} ></label>
         </div>
     }

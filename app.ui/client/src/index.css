@@ -16,6 +16,9 @@ code {
     padding-top: 5rem;
 }
 
+.error {
+  color: darkred;
+}
  
 button {
   /* position: relative; */

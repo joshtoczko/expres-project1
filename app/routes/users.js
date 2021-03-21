@@ -26,4 +26,10 @@ router.get('/id/:userid', (req, res, next) => {
   })
 })
 
+router.get('/username/:username', (req, res, next) => {
+  usrController.exists(req.params.username, (user) => {
+    res.send(user);
+  })
+})
+
 module.exports = router;

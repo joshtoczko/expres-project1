@@ -6,17 +6,18 @@ const { v4: uuid } = require('uuid');
 AWS.config.loadFromPath('./aws/credentials.json');
 
 const hashKey = (id) => `/users/id/${id}`;
+const hashKeyUsername = (username) => `/users/username/${username}`
 const rangeKey = 'user';
 
 const Schema = define('user', {
-    hashKey: 'EntityId',
-    rangeKey: 'EntityType',
+    hashKey: 'entityId',
+    rangeKey: 'entityType',
     timestamps: true,
     schema: {
-        EntityId: Joi.string(),
-        EntityType: Joi.string(),
-        User: {
-            UserName: Joi.string()
+        entityId: Joi.string(),
+        entityType: Joi.string(),
+        user: {
+            userName: Joi.string()
         }
     }
 });
@@ -29,22 +30,36 @@ exports.get = (id, res) => {
             console.log(err);
             res(err);
         } else {
-            res(result?.get('User')?.toString());
+            res(result?.get('user')?.toString());
         }
     });
 }
 
-exports.create = (username, res) => {
-    const userObj = {
-        EntityId: hashKey(uuid()),
-        EntityType: rangeKey,
-        User: {
-            UserName: username
+exports.getUserByUsername = (username, res) => {
+    Schema.get(hashKeyUsername(username), rangeKey, (err, result) => {
+        if (err) {
+            console.log(err);
+            return res(err);
         }
-    }
 
-    Schema.create(userObj, (err, ent) => {
-        if (err) res(500);
-        res(`Create user for ${ent.get('User')?.UserName}`);
+        res(result?.get('user'))
+    })
+}
+
+exports.create = (username, res) => {
+    const userObj = (entityId) => ({
+        entityId: entityId,
+        entityType: rangeKey,
+        user: {
+            userName: username
+        }
+    });
+
+    const byId = userObj(hashKey(uuid()));
+    const byUsername = userObj(hashKeyUsername(username));
+
+    Schema.create([byId, byUsername], (err, ent) => {
+        if (err) return res(500);
+        res(`Create user for ${ent[0].get('user')?.userName}`);
     });
 }

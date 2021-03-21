@@ -24,7 +24,9 @@ class Page extends React.Component {
     }
 
     render() {
-        return <Modal onSubmit={this.handleSubmit} onCreateUser={this.handleCreateUser} key='modal' />
+        return <Modal onSubmit={this.handleSubmit}
+            onCreateUser={this.handleCreateUser}
+            key='modal' />
     }
 }
 
