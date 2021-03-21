@@ -1,5 +1,5 @@
 import React from 'react';
-import { createUser } from '../services/users';
+//import { createUser } from '../services/users';
 import Modal from './Modal';
 
 // can you use bootstrap?
@@ -18,9 +18,9 @@ class Page extends React.Component {
     }
 
     handleCreateUser(e, form) {
-        e.preventDefault();
-        console.log(`Login.Page.handleCreateUser: ${form.username}`);
-        createUser(form.username);
+        // e.preventDefault();
+        // console.log(`Login.Page.handleCreateUser: ${form.username}`);
+        // createUser(form.username);
     }
 
     render() {

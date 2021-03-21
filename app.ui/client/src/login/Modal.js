@@ -1,18 +1,24 @@
 import React from 'react';
 import logo from '../assets/zbd.png';
-import { userExists } from '../services/users';
+import { userExists, createUser } from '../services/users';
 import '../index.css';
 
 class Modal extends React.Component {
+    initialMessageState = {
+        showUserAlreadyExists: false,
+        showUserCreated: false,
+        showError: false
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
             form: {
                 username: null,
-                password: null,
-                showUserAlreadyExists: false
-            }
+                password: null
+            },
+            ...this.initialMessageState
         };
     }
 
@@ -24,6 +30,7 @@ class Modal extends React.Component {
     onCreateUser(e) {
         e.preventDefault();
         console.log(`Modal.onCreateUser: ${this.state.form.username}`);
+        this.setState({ ...this.initialMessageState });
 
 
         userExists(this.state.form.username, (user) => {
@@ -37,7 +44,11 @@ class Modal extends React.Component {
                 return;
             }
 
-            this.props.onCreateUser(e, this.state.form);
+            createUser(this.state.form.username, (err, res) => {
+                if (err) return this.setState({ showError: true });
+
+                return this.setState({ showUserCreated: true });
+            });
         });
     }
 
@@ -57,6 +68,12 @@ class Modal extends React.Component {
             {
                 this.state.showUserAlreadyExists &&
                 <h2 className="error">This user already exists!</h2>
+            } {
+                this.state.showError &&
+                <h2 className="error">There was an error, please try again later.</h2>
+            } {
+                this.state.showUserCreated &&
+                <h2 className="success">User created!</h2>
             }
         </div>
     }

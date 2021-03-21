@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export function createUser(username) {
+export function createUser(username, createUserRes) {
     console.log(`From axios createUser: ${username}`);
     axios.post('http://localhost:3001/users', {
         username: username
@@ -10,9 +10,10 @@ export function createUser(username) {
         }
     }).then((res) => {
         console.log(`axios create response: ${res}`)
-        return res.userId;
+        createUserRes(null, res);
     }).catch((e) => {
-        console.log(e);
+        console.log('[createUser] caught error', e);
+        createUserRes(e, null);
     });
 }
 

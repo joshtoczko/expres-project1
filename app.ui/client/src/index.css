@@ -19,6 +19,10 @@ code {
 .error {
   color: darkred;
 }
+
+.success {
+  color: green
+}
  
 button {
   /* position: relative; */
