@@ -1,7 +1,6 @@
 import './App.css';
 import Login from './login/Login'
 import React from 'react';
-//const Home = React.lazy(() => import('./home/Home'));
 import Home from './home/Home';
 
 class App extends React.Component {
