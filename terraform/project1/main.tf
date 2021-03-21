@@ -18,3 +18,8 @@ module "dynamoDb" {
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
 }
+
+module "ssm" {
+  source      = "./modules/ssm"
+  environment = var.environment
+}

@@ -17,15 +17,8 @@ class Page extends React.Component {
         this.props.onSubmit(form.username);
     }
 
-    handleCreateUser(e, form) {
-        // e.preventDefault();
-        // console.log(`Login.Page.handleCreateUser: ${form.username}`);
-        // createUser(form.username);
-    }
-
     render() {
         return <Modal onSubmit={this.handleSubmit}
-            onCreateUser={this.handleCreateUser}
             key='modal' />
     }
 }

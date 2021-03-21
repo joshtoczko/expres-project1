@@ -2,6 +2,7 @@ import './App.css';
 import Login from './login/Login'
 import React from 'react';
 import Home from './home/Home';
+import { login } from './services/login';
 
 class App extends React.Component {
   constructor(props) {
@@ -23,15 +24,22 @@ class App extends React.Component {
 
     return (
       <div className="App" >
-        <Login onSubmit={(username, password) => {
-          console.log(username);
-          this.setState({
-            isLoggedIn: true,
-            username: username
-          });
-        }} />
+        <Login onSubmit={this.login.bind(this)} />
       </div>
     );
+  }
+
+  login(username, spass) {
+    console.log('[App.login] login with', username);
+
+    login(username, spass, (err, res) => {
+      if (err) return;
+
+      this.setState({
+        isLoggedIn: true,
+        username: username
+      });
+    });
   }
 }
 

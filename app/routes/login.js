@@ -1,9 +1,12 @@
 const express = require('express');
-// const usrController = require('../controllers/users');
+const loginManager = require('../authentication/loginManager');
 const router = express.Router();
 
 router.post('/', (req, res, next) => {
-    usrController.create(req.body, (message) => {
-        res.send(message);
-    })
+    loginManager.handleLogin(req.body.username, (err, loginRes) => {
+        res.cookie('token', loginRes, { httpOnly: true });
+        res.send(loginRes);
+    });
 });
+
+module.exports = router;
