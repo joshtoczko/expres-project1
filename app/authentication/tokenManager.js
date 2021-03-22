@@ -14,11 +14,12 @@ exports.getSecret = async (res) => {
 
     const command = new GetParameterCommand(params);
 
-    // ssmClient.send(command, (err, data) => {
-    //     if (err) res(err, null);
-    //     res(null, data.Parameter.Value);
-    // });
     const secret = await (ssmClient.send(command));
+
+    if (secret.Parameter.Value === 'REDACTED') {
+        res('an error has occurred', null);
+    }
+
     thisSecret = secret.Parameter.Value;
     res(null, thisSecret);
     return thisSecret;
