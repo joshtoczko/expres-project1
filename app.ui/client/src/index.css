@@ -23,6 +23,11 @@ code {
 .success {
   color: green
 }
+
+.team-feed {
+  float: left;
+  margin-left: 15rem;
+}
  
 button {
   /* position: relative; */
