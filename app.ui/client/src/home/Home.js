@@ -37,7 +37,7 @@ class Home extends React.Component {
                     <div>
                         {
                             this.state.teamFeed?.map((feedItem) =>
-                                <li>
+                                <li key={feedItem.id}>
                                     <h3>{feedItem.event.title}</h3>
                                     <h4>{feedItem.event.message}</h4>
                                 </li>

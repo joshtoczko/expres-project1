@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export function getFeed(res) {
-    axios.get('http://localhost:3001/teamfeed')
+    axios.get('/teamfeed')
         .then((val) => {
             res(null, val.data);
         }).catch((e) => {

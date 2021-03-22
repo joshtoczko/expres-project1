@@ -5,7 +5,7 @@ const app = require('../app');
 
 var thisSecret = 'Redacted';
 
-const getSecret = async (res) => {
+exports.getSecret = async (res) => {
     const ssmClient = new SSMClient({ region: 'us-east-1' });
     const params = {
         Name: 'dev-express-project1-jwt-secret',
@@ -25,7 +25,7 @@ const getSecret = async (res) => {
 }
 
 exports.getToken = (username, res) => {
-    getSecret((err, secret) => {
+    this.getSecret((err, secret) => {
         jwt.sign({ username: username }, secret, {
             expiresIn: '6h'
         }, (err, enc) => {

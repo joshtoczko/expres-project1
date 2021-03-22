@@ -23,23 +23,25 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }));
 
-app.use(
-  expJwt({
-    secret: tokenManager.getToken() || 'redacted',
-    getToken: req => req.cookies.token,
-    algorithms: ['HS256']
-  }).unless({
-    path: [
-      '/login',
-      /\/users\/username\/.*/,
-      {
-        url: '/users',
-        methods: ['POST']
-      },
-      '/teamfeed'
-    ]
-  })
-)
+tokenManager.getSecret((err, secr) => {
+  app.use(
+    expJwt({
+      secret: secr,
+      getToken: req => req.cookies.token,
+      algorithms: ['HS256']
+    }).unless({
+      path: [
+        '/login',
+        /\/users\/username\/.*/,
+        {
+          url: '/users',
+          methods: ['POST']
+        },
+        // '/teamfeed'
+      ]
+    })
+  )
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

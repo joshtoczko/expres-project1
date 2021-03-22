@@ -2,7 +2,7 @@ const axios = require('axios');
 
 
 export function login(username, spass, loginRes) {
-    axios.post('http://localhost:3001/login', {
+    axios.post('/login', {
         username: username,
         spass: spass
     }).then((res) => {
