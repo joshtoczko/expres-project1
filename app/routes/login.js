@@ -5,7 +5,7 @@ const router = express.Router();
 router.post('/', (req, res, next) => {
     loginManager.handleLogin(req.body.username, (err, loginRes) => {
         res.cookie('token', loginRes, { httpOnly: true });
-        res.send(loginRes);
+        res.json(loginRes);
     });
 });
 

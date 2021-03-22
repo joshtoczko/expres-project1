@@ -4,19 +4,40 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const expJwt = require('express-jwt');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
+
+const tokenManager = require('./authentication/tokenManager');
 
 const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
+
+app.use(
+  expJwt({
+    secret: tokenManager.getToken() || 'redacted',
+    getToken: req => req.cookies.token,
+    algorithms: ['HS256']
+  }).unless({
+    path: [
+      '/login',
+      /\/users\/username\/.*/,
+      {
+        url: '/users',
+        methods: ['POST']
+      }
+    ]
+  })
+)
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
